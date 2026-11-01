@@ -1,0 +1,21 @@
+name: Render SPLDV
+on:
+  workflow_dispatch:
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: unzip -q proyek.zip
+      - run: npm install
+        working-directory: spldv
+      - run: npx remotion render SPLDV out/spldv.mp4
+        working-directory: spldv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spldv-mp4
+          path: spldv/out/spldv.mp4
